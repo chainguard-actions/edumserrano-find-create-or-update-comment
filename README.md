@@ -8,6 +8,7 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 
 | Version | Tag | Upstream commit |
 |---------|-----|-----------------|
+| v1.0.2 | [`v1.0.2`](https://github.com/chainguard-actions/find-create-or-update-comment/tree/v1.0.2) | — |
 | v1.0.4 | [`v1.0.4`](https://github.com/chainguard-actions/find-create-or-update-comment/tree/v1.0.4) | — |
 
 ## Privacy
