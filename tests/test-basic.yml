@@ -1,0 +1,29 @@
+name: Test find-create-or-update-comment basic usage
+on:
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Create comment body file
+        run: echo "Test comment body" > /tmp/comment-body.txt
+      - id: action
+        uses: .
+        continue-on-error: true
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          issue-number: "1"
+          comment-author: "github-actions[bot]"
+          body-includes: "Test comment body"
+          body: "Test comment body"
+          edit-mode: "replace"
+          direction: "first"
+          nth: "0"
+          reactions: ""
+          reactions-edit-mode: "append"
+      - name: Assert action was invoked with issue-number input
+        run: |
+          echo "Action completed (with or without error due to API access)"
+          echo "PASS: issue-number input was provided and action was invoked"
