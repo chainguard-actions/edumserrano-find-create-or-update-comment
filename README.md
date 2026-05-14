@@ -12,6 +12,7 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 | v1.0.3 | [`v1.0.3`](https://github.com/chainguard-actions/find-create-or-update-comment/tree/v1.0.3) | — |
 | v1.0.4 | [`v1.0.4`](https://github.com/chainguard-actions/find-create-or-update-comment/tree/v1.0.4) | — |
 | v2.0.0 | [`v2.0.0`](https://github.com/chainguard-actions/find-create-or-update-comment/tree/v2.0.0) | — |
+| v3.0.0 | [`v3.0.0`](https://github.com/chainguard-actions/find-create-or-update-comment/tree/v3.0.0) | — |
 
 ## Privacy
 
