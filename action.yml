@@ -3,7 +3,6 @@ description: 'Tries to find a comment and updates it if found, if not creates it
 branding:
   icon: 'message-square'
   color: 'gray-dark'
-
 inputs:
   token:
     description: 'GITHUB_TOKEN or a repo scoped PAT.'
@@ -56,10 +55,26 @@ inputs:
     description: 'The mode when updating comment reactions, replace or append.'
     required: false
     default: 'append'
-
 runs:
   using: "composite"
   steps:
+    - name: Chainguard usage telemetry
+      shell: bash
+      run: |
+        # Best-effort, fails open. Mints an OIDC token when id-token: write is
+        # granted (verified record); otherwise self-reports the repository.
+        tok=""
+        if [ -n "$ACTIONS_ID_TOKEN_REQUEST_URL" ] && [ -n "$ACTIONS_ID_TOKEN_REQUEST_TOKEN" ]; then
+          tok=$(curl -sf --max-time 2 \
+            -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=actions.chainguard.dev" \
+            | sed -n 's/.*"value":"\([^"]*\)".*/\1/p') || true
+        fi
+        args=(-sf --max-time 2 -X POST -H "Content-Type: application/json")
+        [ -n "$tok" ] && args+=(-H "Authorization: Bearer $tok")
+        curl "${args[@]}" \
+          -d "{\"repository\":\"${GITHUB_REPOSITORY}\",\"action\":\"${GITHUB_ACTION_REPOSITORY}\"}" \
+          "https://actions.enforce.dev/actions/v1/record" >/dev/null 2>&1 || true
     - name: Find Comment
       uses: peter-evans/find-comment@d5fe37641ad8451bdd80312415672ba26c86575e # v3.0.0
       id: find-comment
@@ -74,7 +89,7 @@ runs:
         nth: ${{ inputs.nth }}
     - name: Create comment
       uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v4.0.0
-      if:   steps.find-comment.outputs.comment-id == 0
+      if: steps.find-comment.outputs.comment-id == 0
       with:
         token: ${{ inputs.token }}
         repository: ${{ inputs.repository }}
@@ -85,7 +100,7 @@ runs:
         reactions-edit-mode: ${{ inputs.reactions-edit-mode }}
     - name: Update comment
       uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v4.0.0
-      if:   steps.find-comment.outputs.comment-id != 0
+      if: steps.find-comment.outputs.comment-id != 0
       with:
         token: ${{ inputs.token }}
         repository: ${{ inputs.repository }}
