@@ -8,7 +8,7 @@ Hardened by [Chainguard](https://www.chainguard.dev) from the upstream action at
 
 | Version | Tag | Upstream commit |
 |---------|-----|-----------------|
-| v1.0.2 | [`v1.0.2`](https://github.com/chainguard-actions/edumserrano-find-create-or-update-comment/tree/v1.0.2) | — |
+| v1.0.2 | [`v1.0.2`](https://github.com/chainguard-actions/edumserrano-find-create-or-update-comment/tree/v1.0.2) | [`ca5e8b8`](https://github.com/edumserrano/find-create-or-update-comment/commit/ca5e8b836837f8b6e10e30e867458bcf12a6f438) |
 | v1.0.3 | [`v1.0.3`](https://github.com/chainguard-actions/edumserrano-find-create-or-update-comment/tree/v1.0.3) | — |
 | v1.0.4 | [`v1.0.4`](https://github.com/chainguard-actions/edumserrano-find-create-or-update-comment/tree/v1.0.4) | — |
 | v2.0.0 | [`v2.0.0`](https://github.com/chainguard-actions/edumserrano-find-create-or-update-comment/tree/v2.0.0) | — |
