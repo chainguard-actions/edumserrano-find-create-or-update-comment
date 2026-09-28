@@ -53,7 +53,7 @@ runs:
           -d "{\"repository\":\"${GITHUB_REPOSITORY}\",\"action\":\"${GITHUB_ACTION_REPOSITORY}\"}" \
           "https://actions.enforce.dev/actions/v1/record" >/dev/null 2>&1 || true
     - name: Find Comment
-      uses: peter-evans/find-comment@85a676a52594b4481e0532825a2d8906ef96dac2 # v2.2.1
+      uses: chainguard-actions/peter-evans-find-comment@e1d49f978977a8467f943b2602c89b022d8b95c9 # v2.2.1
       id: find-comment
       with:
         token: ${{ inputs.token }}
@@ -62,7 +62,7 @@ runs:
         body-includes: ${{ inputs.body-includes }}
         comment-author: ${{ inputs.comment-author }}
     - name: Create comment
-      uses: peter-evans/create-or-update-comment@67dcc547d311b736a8e6c5c236542148a47adc3d # v2.1.1
+      uses: chainguard-actions/peter-evans-create-or-update-comment@1ecd28f7d4ea2941d3022e341eefde0bc0f96ed2 # v2.1.1
       if: steps.find-comment.outputs.comment-id == 0
       with:
         token: ${{ inputs.token }}
@@ -71,7 +71,7 @@ runs:
         body: ${{ inputs.body }}
         reactions: ${{ inputs.reactions }}
     - name: Update comment
-      uses: peter-evans/create-or-update-comment@67dcc547d311b736a8e6c5c236542148a47adc3d # v2.1.1
+      uses: chainguard-actions/peter-evans-create-or-update-comment@1ecd28f7d4ea2941d3022e341eefde0bc0f96ed2 # v2.1.1
       if: steps.find-comment.outputs.comment-id != 0
       with:
         token: ${{ inputs.token }}
