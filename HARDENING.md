@@ -16,18 +16,21 @@ Action **edumserrano--find-create-or-update-comment/v2.0.0** was hardened automa
 
 ### unpinned-uses (severity: high)
 
-Three `uses:` references in action.yml are pinned to mutable version tags rather than immutable 40-character SHA digests. This exposes the action to supply-chain attacks: if the upstream repository is compromised, a malicious tag update would automatically be picked up. Failing references:
-- `peter-evans/find-comment@v2.4.0` (line 63)
-- `peter-evans/create-or-update-comment@v3.1.0` (line 72, Create comment step)
-- `peter-evans/create-or-update-comment@v3.1.0` (line 83, Update comment step)
+All three `uses:` references in action.yml are pinned to mutable version tags rather than immutable 40-character commit SHAs. This exposes the action to supply-chain attacks if the upstream repositories are compromised or the tags are moved.
 
-Each should be replaced with the full 40-character commit SHA, e.g. `peter-evans/find-comment@<sha> # v2.4.0`.
+Failing references:
+- `peter-evans/find-comment@v2.4.0` (line 63)
+- `peter-evans/create-or-update-comment@v3.1.0` (line 70)
+- `peter-evans/create-or-update-comment@v3.1.0` (line 80)
+
+Each should be replaced with the full SHA digest of the intended commit, e.g.:
+`peter-evans/find-comment@<40-char-sha> # v2.4.0`
 
 Locations:
 
 - `action.yml:63`
-- `action.yml:72`
-- `action.yml:83`
+- `action.yml:70`
+- `action.yml:80`
 
 ## Iteration Notes
 
@@ -37,10 +40,7 @@ Locations:
 
 **Notes:**
 
-Pinned all three unpinned `uses:` references in hardened/action/action.yml:
-- `peter-evans/find-comment@v2.4.0` → `@a54c31d7fa095754bfef525c0c8e5e5674c4b4b1 # v2.4.0`
-- `peter-evans/create-or-update-comment@v3.1.0` (Create comment step) → `@23ff15729ef2fc348714a3bb66d2f655ca9066f2 # v3.1.0`
-- `peter-evans/create-or-update-comment@v3.1.0` (Update comment step) → `@23ff15729ef2fc348714a3bb66d2f655ca9066f2 # v3.1.0`
-
-SHAs were resolved using lookup_action_sha and the original version tags are preserved as comments.
+Pinned all three unpinned `uses:` references in hardened/action/action.yml to immutable commit SHAs:
+- `peter-evans/find-comment@v2.4.0` → `peter-evans/find-comment@a54c31d7fa095754bfef525c0c8e5e5674c4b4b1 # v2.4.0` (line 63)
+- `peter-evans/create-or-update-comment@v3.1.0` → `peter-evans/create-or-update-comment@23ff15729ef2fc348714a3bb66d2f655ca9066f2 # v3.1.0` (lines 70 and 80, both occurrences updated)
 
