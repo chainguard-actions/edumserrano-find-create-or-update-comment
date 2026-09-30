@@ -16,17 +16,18 @@ Action **edumserrano--find-create-or-update-comment/v1.0.2** was hardened automa
 
 ### unpinned-uses (severity: high)
 
-action.yml references composite action steps using mutable version tags instead of full 40-character commit SHA digests. This exposes the action to supply-chain attacks where a tag can be silently moved to point to malicious code. Failing references:
-- `peter-evans/find-comment@v2.2.1`
-- `peter-evans/create-or-update-comment@v2.1.1` (used twice)
+All three `uses:` references in action.yml are pinned to mutable version tags rather than immutable 40-character commit SHAs. This exposes the action to supply-chain attacks if the upstream repositories are compromised or the tags are moved. Failing references:
+- `peter-evans/find-comment@v2.2.1` (line 36)
+- `peter-evans/create-or-update-comment@v2.1.1` (line 43)
+- `peter-evans/create-or-update-comment@v2.1.1` (line 50)
 
-Each should be pinned to a full SHA, e.g. `peter-evans/find-comment@<40-hex-sha> # v2.2.1`.
+Each should be replaced with the full 40-character commit SHA, e.g. `peter-evans/find-comment@<sha> # v2.2.1`.
 
 Locations:
 
-- `action.yml:38`
-- `action.yml:44`
-- `action.yml:52`
+- `action.yml:36`
+- `action.yml:43`
+- `action.yml:50`
 
 ## Iteration Notes
 
@@ -36,5 +37,8 @@ Locations:
 
 **Notes:**
 
-Pinned all three unpinned action references in hardened/action/action.yml to full 40-character commit SHAs: peter-evans/find-comment@v2.2.1 → SHA 85a676a52594b4481e0532825a2d8906ef96dac2, and both occurrences of peter-evans/create-or-update-comment@v2.1.1 → SHA 67dcc547d311b736a8e6c5c236542148a47adc3d. Original version tags preserved as inline comments.
+Pinned all three mutable tag references in hardened/action/action.yml to immutable commit SHAs:
+- `peter-evans/find-comment@v2.2.1` → `peter-evans/find-comment@85a676a52594b4481e0532825a2d8906ef96dac2 # v2.2.1` (line 36)
+- `peter-evans/create-or-update-comment@v2.1.1` → `peter-evans/create-or-update-comment@67dcc547d311b736a8e6c5c236542148a47adc3d # v2.1.1` (lines 43 and 50)
+Original version tags are preserved as inline comments for readability.
 
